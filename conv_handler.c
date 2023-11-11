@@ -4,27 +4,40 @@
 *conv_handler - handle conversions in format string
 *@form: format string
 *@args: list of variables
-*@i: current index of operation on format string
+*Return: length printed
 */
 
-void conv_handler(const char *form, va_list args, int i)
+int conv_handler(const char *form, va_list args)
 {
-	char *str;
-	int ch;
+	converter_t converter[] = {
+		{"c", print_char},
+		{"s", print_string},
+		{"d", print_int},
+		{"i", print_int},
+		{"%", print_percent},
+		{"b", print_binary}, //task2
+		{"u", print_unsigned}, //task3
+		{"o", print_octal}, //task3
+		{NULL, NULL}
+	};
 
-	if (form[i + 1] == 'c')
+	int y, len, struc_len;
+
+	y = 0;
+	len = 0;
+	struc_len = 0;
+
+	while (converter[struc_len].sign != NULL)
+		struc_len++;
+
+	while (y < struc_len)
 	{
-		ch = va_arg(args, int);
-		_write(ch);
-	} else if (form[i + 1] == 's')
-	{
-		str = va_arg(args, char *);
-		_strwrite(str);
+		if (*form  == converter[y].sign[0])
+		{
+			len += converter[y].func(args);
+		}
+		y++;
 	}
-	// i added this for task 1
-	else if (form[i + 1] == 'd' || form[i + 1] == 'i')
-	{
-		int num = va_arg(args, int);
-		_intwrite(num);
-	}
+
+	return (len);
 }

@@ -1,41 +1,37 @@
 #include "main.h"
-
+#include "stdio.h"
 /**
-*_printf - print life
-*@format: string to print
-*Return: length of format
+*_printf - printf clone
+*@format: string with option
+*Return: length printed
 */
 
 int _printf(const char *format, ...)
 {
-	int printed_char, i;
-	int ch;
+	int len;
 	va_list args;
 
-	printed_char = 0;
-	i = 0;
-
+	len = 0;
 	va_start(args, format);
 
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
 
-	while (i < _strlen(format))
+	while (*format)
 	{
-		ch = format[i];
-		if (ch != '%' && ch != '\\')
+		if (*format == '%')
 		{
-			_write(ch);
-			printed_char++;
-		} else if (ch == '%')
-		{
-			conv_handler(format, args, i);
-			printed_char++;
-			i++;
+			format++;
+			len += conv_handler(format, args);
+			format++;
+			continue;
 		}
-		i++;
+
+		_write(*format);
+		format++;
+		len++;
 	}
+
 	va_end(args);
-
-
-	return (printed_char);
+	return (len);
 }
-
