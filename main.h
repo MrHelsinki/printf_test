@@ -8,6 +8,7 @@ int _printf(const char *format, ...);
 int _strlen(const char *s);
 int _write(char t);
 void _strwrite(char *s);
+void _intwrite(int num);
 void conv_handler(const char *form, va_list args, int i);
 
 #endif
