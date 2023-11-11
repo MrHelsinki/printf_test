@@ -22,9 +22,9 @@ void conv_handler(const char *form, va_list args, int i)
 		_strwrite(str);
 	}
 	// i added this for task 1
-	else if (form[i + 1] == 'd' || form[i + 1] == 'i')
+	/*else if (form[i + 1] == 'd' || form[i + 1] == 'i')
 	{
 		int num = va_arg(args, int);
 		_intwrite(num);
-	}
+	}*/
 }
